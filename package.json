@@ -17,6 +17,7 @@
   "scripts": {
     "build": "imbac jumping.imba"
   },
+  "prepare": "npm run build",
   "dependencies": {
     "colors": "^1.4.0",
     "commander": "^9.4.1"
