@@ -35,9 +35,9 @@ def main
 		try
 			p "`~/jumping.json` not found, creating...".green
 			writeDb {}
-			p "OK".green
+			p "\nOK".green
 		catch e
-			quit "Failed to create `~/jumping.json` file:\n\n{e}"
+			quit "\nFailed to create `~/jumping.json` file:\n\n{e}"
 
 	let db
 	try
