@@ -1,7 +1,7 @@
 {
   "name": "jumping",
   "description": "Assign custom aliases to directories and quickly jump to them from anywhere.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "Mikey Oz",
   "repository": {
     "type": "git",
