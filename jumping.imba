@@ -82,5 +82,6 @@ def main
 	if args.delete
 		delete db[args.delete]
 		writeDb db
+		return
 
 main!
