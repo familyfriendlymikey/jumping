@@ -7,17 +7,14 @@
     "type": "git",
     "url": "git+https://github.com/familyfriendlymikey/jumping.git"
   },
+  "main": "jumping.js",
   "bin": {
     "jumping": "bin"
   },
-  "files": [
-    "bin",
-    "jumping.js"
-  ],
   "scripts": {
-    "build": "imbac jumping.imba"
+    "build": "imbac jumping.imba",
+    "prepare": "npm run build"
   },
-  "prepare": "npm run build",
   "dependencies": {
     "colors": "^1.4.0",
     "commander": "^9.4.1"
