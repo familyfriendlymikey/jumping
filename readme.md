@@ -6,7 +6,7 @@ from anywhere.
 ## Installation
 
 ```sh
-npm i jumping
+npm i -g jumping
 ```
 
 Put the following in your `~/.bashrc` or `~/.zshrc` file:
