@@ -1,0 +1,20 @@
+{
+  "name": "jumping",
+  "description": "Assign custom aliases to directories and quickly jump to them from anywhere.",
+  "version": "1.0.0",
+  "author": "Mikey Oz",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/familyfriendlymikey/jumping.git"
+  },
+  "bin": {
+    "jumping": "bin"
+  },
+  "scripts": {
+    "build": "imbac jumping.imba"
+  },
+  "dependencies": {
+    "colors": "^1.4.0",
+    "commander": "^9.4.1"
+  }
+}
