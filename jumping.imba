@@ -8,6 +8,7 @@ const home = require('os').homedir!
 const { program } = require 'commander'
 
 program
+	.description('See README: https://github.com/familyfriendlymikey/jumping')
 	.option('-s, --set <alias>', 'Sets the current directory to the provided alias')
 	.option('-g, --get <alias>', 'Prints the full path to the directory associated with the alias')
 	.option('-f, --force', 'Overwrite an existing association')
