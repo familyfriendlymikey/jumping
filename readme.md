@@ -13,7 +13,9 @@ Put the following in your `~/.bashrc` or `~/.zshrc` file:
 
 ```sh
 j(){
-  cd "$(jumping --get "$1")"
+	local dir
+	dir="$(jumping --get "$1")"
+	[[ -d "$dir" ]] && cd "$dir"
 }
 
 alias d='jumping --set'

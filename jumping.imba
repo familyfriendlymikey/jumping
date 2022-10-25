@@ -4,33 +4,37 @@ const cwd = process.cwd!
 require 'colors'
 const fs = require 'fs'
 const path = require 'path'
-const home = require('os').homedir!
 const { program } = require 'commander'
+
+const home = require('os').homedir!
+const dbPath = path.join(home, 'jumping.json')
 
 program
 	.description('See README: https://github.com/familyfriendlymikey/jumping')
-	.option('-s, --set <alias>', 'Sets the current directory to the provided alias')
-	.option('-g, --get <alias>', 'Prints the full path to the directory associated with the alias')
-	.option('-f, --force', 'Overwrite an existing association')
-	.option('-l, --list', 'Lists all directory-alias associations')
+	.option('-s, --set <alias>', 'Set the current directory to the provided alias')
+	.option('-g, --get <alias>', 'Print the full path to the directory associated with the alias')
+	.option('--delete <alias>', 'Delete an alias')
+	.option('-f, --force', 'Overwrite an existing alias')
+	.option('-l, --list', 'List all aliases and their corresponding directories')
 
 def quit msg='Quit'
-	p msg.red
+	console.error msg.red
 	process.exit!
 
 def printAss alias, dir
 	p "\n{alias.cyan} {dir}"
 
+def writeDb db
+	fs.writeFileSync dbPath, JSON.stringify(db)
+
 def main
 
 	let args = program.parse!.opts!
 
-	let dbPath = path.join(home, 'jumping.json')
-
 	unless fs.existsSync dbPath
 		try
 			p "`~/jumping.json` not found, creating...".green
-			fs.writeFileSync dbPath, '{}'
+			writeDb {}
 			p "OK".green
 		catch e
 			quit "Failed to create `~/jumping.json` file:\n\n{e}"
@@ -55,23 +59,28 @@ def main
 	if args.get
 		let alias = args.get
 		let dir = db[alias]
-		if dir
-			p dir
-		else
-			quit "Association not found for alias '{alias}'."
+		unless dir
+			quit "Association not found for alias '{alias}'"
+		unless fs.existsSync dir
+			quit "Directory associated with alias '{alias}' not found: {dir}"
+		p dir
 		return
 
 	if args.set
 		let alias = args.set
 		if db[alias] and not args.force
-			quit "Association already exists for alias '{alias}'. Use -f to overwrite."
+			quit "Association already exists for alias '{alias}', use -f to overwrite"
 		db[alias] = cwd
 		try
-			fs.writeFileSync dbPath, JSON.stringify(db)
+			writeDb db
 		catch e
 			quit "Failed to write new association to `~/jumping.json` file:\n\n{e}"
 		printAss alias, db[alias]
 		p!
 		return
+
+	if args.delete
+		delete db[args.delete]
+		writeDb db
 
 main!
