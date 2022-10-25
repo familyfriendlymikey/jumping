@@ -10,6 +10,10 @@
   "bin": {
     "jumping": "bin"
   },
+  "files": [
+    "bin",
+    "jumping.js"
+  ],
   "scripts": {
     "build": "imbac jumping.imba"
   },
