@@ -15,17 +15,19 @@ program
 	.option('-g, --get <alias>', 'Print the full path to the directory associated with the alias')
 	.option('--delete <alias>', 'Delete an alias')
 	.option('-f, --force', 'Overwrite an existing alias')
-	.option('-l, --list', 'List all aliases and their corresponding directories')
 
-def quit msg='Quit'
-	console.error msg.red
+def quit msg='Quit', e
+	if e
+		console.error "{msg}:\n\n{e}".red
+	else
+		console.error msg.red
 	process.exit!
 
 def printAss alias, dir
-	p "\n{alias.cyan} {dir}"
+	p "{alias.cyan} {dir}"
 
 def writeDb db
-	fs.writeFileSync dbPath, JSON.stringify(db)
+	fs.writeFileSync dbPath, JSON.stringify(db,null,2)
 
 def main
 
@@ -35,26 +37,20 @@ def main
 		try
 			p "`~/jumping.json` not found, creating...".green
 			writeDb {}
-			p "\nOK".green
+			p "OK".green
 		catch e
-			quit "\nFailed to create `~/jumping.json` file:\n\n{e}"
+			quit "Failed to create `~/jumping.json` file", e
 
 	let db
 	try
-		db = fs.readFileSync(dbPath)
+		db = fs.readFileSync dbPath
 	catch e
-		quit "Failed to read `~/jumping.json` file:\n\n{e}"
+		quit "Failed to read `~/jumping.json` file", e
 
 	try
 		db = JSON.parse db
 	catch e
-		quit "Failed to parse contents of `~/jumping.json` file:\n\n{e}"
-
-	if args.list
-		for own alias, dir of db
-			printAss alias, dir
-		p!
-		return
+		quit "Failed to parse contents of `~/jumping.json` file", e
 
 	if args.get
 		let alias = args.get
@@ -74,14 +70,17 @@ def main
 		try
 			writeDb db
 		catch e
-			quit "Failed to write new association to `~/jumping.json` file:\n\n{e}"
+			quit "Failed to write new association to `~/jumping.json` file", e
 		printAss alias, db[alias]
-		p!
 		return
 
 	if args.delete
 		delete db[args.delete]
 		writeDb db
 		return
+
+	p "No arguments provided, listing all associations:".blue
+	for own alias, dir of db
+		printAss alias, dir
 
 main!

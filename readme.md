@@ -14,18 +14,22 @@ Put the following in your `~/.bashrc` or `~/.zshrc` file:
 ```sh
 j(){
 	local dir
-	dir="$(jumping --get "$1")"
+	dir="$(ji --get "$1")"
 	[[ -d "$dir" ]] && cd "$dir"
 }
 
-alias d='jumping --set'
+alias d='ji --set'
 ```
+
+You can choose names other than `j` and `d`, but this document
+will assume you're using the same names.
 
 ## Usage
 
 ```sh
 d <alias> # defines an alias at the current working directory
 j <alias> # jumps to the directory associated with an alias
+ji # lists all aliases
 ```
 
 ## Guide
