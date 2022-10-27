@@ -8,14 +8,13 @@
     "url": "git+https://github.com/familyfriendlymikey/jumping.git"
   },
   "files": [
-    "jumping.js",
-    "bin"
+    "jumping.js"
   ],
   "bin": {
-    "ji": "bin"
+    "ji": "jumping.js"
   },
   "scripts": {
-    "build": "imbac jumping.imba",
+    "build": "imbac --bin node jumping.imba",
     "prepare": "npm run build"
   },
   "dependencies": {
