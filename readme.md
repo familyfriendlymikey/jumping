@@ -50,6 +50,27 @@ anywhere with
 j rf
 ```
 
+## Extras
+
+I prefer to use this mapping instead of the one above:
+
+```sh
+j(){
+	if [ $# -eq 0 ]; then
+		c
+		local item=$(\fd -I | fzy -l max)
+		if [[ -f "$item" ]]; then cd "$(dirname "$item")"
+		elif [[ -d "$item" ]]; then cd "$item"
+		fi
+	else
+		local dir
+		dir="$(ji --get "$1")"
+		[[ -d "$dir" ]] && cd "$dir"
+	fi
+}
+alias d='ji --set'
+```
+
 ## FAQ
 
 #### Why do I have to edit my `~/.bashrc` or `~/.zshrc`?
