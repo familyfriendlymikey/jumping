@@ -1,20 +1,23 @@
-const p = console.log
-const cwd = process.cwd!
+global.L = console.log
 
 require 'colors'
 const fs = require 'fs'
 const path = require 'path'
 const { program } = require 'commander'
+const { version } = require './package.json'
 
+const cwd = process.cwd!
 const home = require('os').homedir!
-const dbPath = path.join(home, 'jumping.json')
+const db-path = path.join(home, 'jumping.json')
 
 program
-	.description('See README: https://github.com/familyfriendlymikey/jumping')
+	.description("v{version}\n\nSee README: https://github.com/familyfriendlymikey/jumping")
+	.version(version)
 	.option('-s, --set <alias>', 'Set the current directory to the provided alias')
 	.option('-g, --get <alias>', 'Print the full path to the directory associated with the alias')
 	.option('--delete <alias>', 'Delete an alias')
 	.option('-f, --force', 'Overwrite an existing alias')
+	.option('-l, --list', 'List all aliases.')
 
 def quit msg='Quit', e
 	if e
@@ -23,27 +26,27 @@ def quit msg='Quit', e
 		console.error msg.red
 	process.exit!
 
-def printAss alias, dir
-	p "{alias.cyan} {dir}"
+def print-ass alias, dir
+	L "{alias.cyan} {dir}"
 
-def writeDb db
-	fs.writeFileSync dbPath, JSON.stringify(db,null,2)
+def write-db db
+	fs.writeFileSync db-path, JSON.stringify(db,null,2)
 
 def main
 
 	let args = program.parse!.opts!
 
-	unless fs.existsSync dbPath
+	unless fs.existsSync db-path
 		try
-			p "`~/jumping.json` not found, creating...".green
-			writeDb {}
-			p "OK".green
+			L "`~/jumping.json` not found, creating...".green
+			write-db {}
+			L "OK".green
 		catch e
 			quit "Failed to create `~/jumping.json` file", e
 
 	let db
 	try
-		db = fs.readFileSync dbPath
+		db = fs.readFileSync db-path
 	catch e
 		quit "Failed to read `~/jumping.json` file", e
 
@@ -59,7 +62,7 @@ def main
 			quit "Association not found for alias '{alias}'"
 		unless fs.existsSync dir
 			quit "Directory associated with alias '{alias}' not found: {dir}"
-		p dir
+		L dir
 		return
 
 	if args.set
@@ -68,19 +71,22 @@ def main
 			quit "Association already exists for alias '{alias}', use -f to overwrite"
 		db[alias] = cwd
 		try
-			writeDb db
+			write-db db
 		catch e
 			quit "Failed to write new association to `~/jumping.json` file", e
-		printAss alias, db[alias]
+		print-ass alias, db[alias]
 		return
 
 	if args.delete
 		delete db[args.delete]
-		writeDb db
+		write-db db
 		return
 
-	p "No arguments provided, listing all associations:".blue
-	for own alias, dir of db
-		printAss alias, dir
+	if args.list
+		for own alias, dir of db
+			print-ass alias, dir
+		return
+
+	program.help!
 
 main!
