@@ -6,7 +6,7 @@ from anywhere.
 ## Installation
 
 ```sh
-npm i -g jumping
+npm i -g jumping bun
 ```
 
 Put the following in your `~/.bashrc` or `~/.zshrc` file:
@@ -14,11 +14,13 @@ Put the following in your `~/.bashrc` or `~/.zshrc` file:
 ```sh
 j(){
 	local dir
-	dir="$(ji --get "$1")"
+	dir="$(jumping --get "$1")"
 	[[ -d "$dir" ]] && cd "$dir"
 }
 
-alias d='ji --set'
+d(){
+	jumping --set "$@"
+}
 ```
 
 You can choose names other than `j` and `d`, but this document
@@ -29,7 +31,7 @@ will assume you're using the same names.
 ```sh
 d <alias> # defines an alias at the current working directory
 j <alias> # jumps to the directory associated with an alias
-ji # lists all aliases
+jumping # lists all aliases
 ```
 
 ## Guide
@@ -52,7 +54,15 @@ j rf
 
 ## Extras
 
-I prefer to use this mapping instead of the one above:
+I prefer a more flexible mapping in place of the one above.
+
+Install:
+
+```sh
+brew install fd fzy
+```
+
+Add to your `~/.zshrc`:
 
 ```sh
 j(){
@@ -64,11 +74,14 @@ j(){
 		fi
 	else
 		local dir
-		dir="$(ji --get "$1")"
+		dir="$(jumping --get "$1")"
 		[[ -d "$dir" ]] && cd "$dir"
 	fi
 }
-alias d='ji --set'
+
+d(){
+	jumping --set "$@"
+}
 ```
 
 ## FAQ
