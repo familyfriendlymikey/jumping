@@ -11,11 +11,11 @@
     "jumping.js"
   ],
   "bin": {
-    "ji": "jumping.js"
+    "jumping": "jumping.js"
   },
   "scripts": {
-    "build": "imbac --bin node jumping.imba",
-    "prepare": "npm run build"
+    "build": "imbac --bin bun jumping.imba",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "colors": "^1.4.0",
