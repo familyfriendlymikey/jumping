@@ -6,7 +6,13 @@ from anywhere.
 ## Installation
 
 ```sh
-npm i -g jumping bun
+npm i -g jumping
+```
+
+Requires bun:
+
+```sh
+curl -fsSL https://bun.sh/install | bash
 ```
 
 Put the following in your `~/.bashrc` or `~/.zshrc` file:
@@ -45,8 +51,8 @@ d rf
 ```
 
 Later, when I want to change to the
-`~/Desktop/repositories/jumping` directory, I can jump to it from
-anywhere with
+`~/Desktop/repositories/fuzzyhome` directory, I can jump to it from
+anywhere with:
 
 ```sh
 j rf
@@ -54,21 +60,21 @@ j rf
 
 ## Extras
 
-I prefer a more flexible mapping in place of the one above.
+I prefer `j` with no arguments to fuzzy find files recursively.
 
-Install:
+To do this, install:
 
 ```sh
 brew install fd fzy
 ```
 
-Add to your `~/.zshrc`:
+And add the following to your `~/.zshrc`:
 
 ```sh
 j(){
 	if [ $# -eq 0 ]; then
 		c
-		local item=$(\fd -I | fzy -l max)
+		local item=$(\fd | fzy -l max)
 		if [[ -f "$item" ]]; then cd "$(dirname "$item")"
 		elif [[ -d "$item" ]]; then cd "$item"
 		fi
@@ -88,8 +94,6 @@ d(){
 
 #### Why do I have to edit my `~/.bashrc` or `~/.zshrc`?
 
-Programs cannot change the directory of the underlying shell. I'd
-love to be wrong about that, but as far as I know if you want
-this functionality you *have* to use a bash/zsh function in your
-`rc` file. So we just use `jumping` to set and get our aliases,
-while our bash function does the actual directory changing.
+Programs cannot change the directory of the underlying shell. So we
+just use `jumping` to set and get our aliases, while our shell
+function does the actual directory changing.
