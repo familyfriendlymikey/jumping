@@ -27,6 +27,12 @@ j(){
 d(){
 	jumping --set "$@"
 }
+
+o(){
+	local dir
+	dir="$(jumping --get "$1")"
+	[[ -d "$dir" ]] && open "$dir" && exit
+}
 ```
 
 You can choose names other than `j` and `d`, but this document
@@ -37,6 +43,7 @@ will assume you're using the same names.
 ```sh
 d <alias> # defines an alias at the current working directory
 j <alias> # jumps to the directory associated with an alias
+o <alias> # opens the directory associated with an alias and closes the terminal window
 jumping # lists all aliases
 ```
 
@@ -57,6 +64,25 @@ anywhere with:
 ```sh
 j rf
 ```
+
+Or, if I'd rather just open the directory with Finder and close
+the terminal window, I can do:
+
+```
+o rf
+```
+
+This works well with hotkey daemons such as
+[skhd](https://github.com/koekeishiya/skhd). If I want to navigate to
+a folder in Finder, I simply open a terminal with `cmd + return` per
+my `skhd` hotkey:
+
+```
+cmd - return : open -a Terminal ~/Desktop
+```
+
+Then I type `o rf`, and the relevant finder window opens while
+the terminal closes.
 
 ## Extras
 
