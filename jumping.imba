@@ -24,7 +24,7 @@ def quit msg='Quit', e
 		console.error "{msg}:\n\n{e}".red
 	else
 		console.error msg.red
-	process.exit!
+	process.exit(1)
 
 def print-ass alias, dir
 	L "{alias.cyan} {dir}"
