@@ -25,7 +25,7 @@ j(){
 }
 
 d(){
-	jumping --set "$@"
+	jumping --set "$1"
 }
 
 o(){
@@ -112,7 +112,7 @@ j(){
 }
 
 d(){
-	jumping --set "$@"
+	jumping --set "$1"
 }
 ```
 
