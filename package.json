@@ -16,8 +16,7 @@
   "scripts": {
     "dev": "imba build -w main.imba",
     "build": "imba build main.imba",
-    "sync": "bun i && bun run build && npm link",
-    "prepack": "bun i && bun run build",
+    "prepack": "npm i && npm run build",
     "check": "npm pack --dry-run"
   },
   "dependencies": {

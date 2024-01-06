@@ -9,12 +9,6 @@ from anywhere.
 npm i -g jumping
 ```
 
-Requires bun:
-
-```sh
-curl -fsSL https://bun.sh/install | bash
-```
-
 Put the following in your `~/.bashrc` or `~/.zshrc` file:
 
 ```sh
@@ -25,7 +19,7 @@ j(){
 }
 
 d(){
-	jumping --set "$1"
+	jumping --set "$@"
 }
 
 o(){
@@ -97,22 +91,21 @@ brew install fd fzy
 And add the following to your `~/.zshrc`:
 
 ```sh
+# jumping
 j(){
 	if [ $# -eq 0 ]; then
-		c
-		local item=$(\fd | fzy -l max)
-		if [[ -f "$item" ]]; then cd "$(dirname "$item")"
-		elif [[ -d "$item" ]]; then cd "$item"
+		local item
+		item=$(\fd | fzy -l max)
+		if [[ -f "$item" ]]; then
+			cd "$(dirname "$item")"
+		elif [[ -d "$item" ]]; then
+			cd "$item"
 		fi
 	else
 		local dir
 		dir="$(jumping --get "$1")"
 		[[ -d "$dir" ]] && cd "$dir"
 	fi
-}
-
-d(){
-	jumping --set "$1"
 }
 ```
 
